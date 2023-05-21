@@ -62,7 +62,7 @@ fun MyIpTextField(value:MutableState<String>){
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth(),
         value = value.value,
-        placeholder = { Text(text = "Enter Local Host Ip") },
+        placeholder = { Text(text = "Enter Server Port") },
         onValueChange = {
             value.value = it
         },

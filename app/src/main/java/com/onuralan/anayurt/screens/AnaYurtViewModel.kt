@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.onuralan.anayurt.model.Message
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -30,42 +31,31 @@ class AnaYurtViewModel:ViewModel() {
 
     val localHostIp:MutableState<String> = mutableStateOf("")
 
-    private val _serverSocket = MutableLiveData<ServerSocket?>()
-    val serverSocket: LiveData<ServerSocket?> = _serverSocket
 
 
 
     fun startServer() {
-        viewModelScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             val serverSocket = ServerSocket(serverLocalHostPort.value.toInt())
-            _serverSocket.postValue(serverSocket)
+            val socket = serverSocket.accept()
             while (true) {
-                connectFun(serverSocket)
+                connectFun(socket)
             }
         }
     }
 
-    suspend fun connectFun(serverSocket:ServerSocket){
+    suspend fun connectFun(socket:Socket){
          withContext(Dispatchers.IO){
-             val socket = serverSocket.accept()
             val scanner = Scanner(socket.getInputStream())
             while (scanner.hasNextLine()){
                 val a = scanner.nextLine()
                 messageList.add(Message("Computer",a))
                 break
             }
-            socket.close()
-        }
-    }
-    suspend fun sendMessageFun(){
-        withContext(Dispatchers.IO){
-
-            val socket = serverSocket.value!!.accept()
-            socket.getOutputStream().write(sendMessage.value.toByteArray())
-            socket.close()
 
         }
     }
+
 
     @Suppress("DEPRECATION")
     fun getWifiIPv4Address(context: Context): String {
@@ -81,6 +71,13 @@ class AnaYurtViewModel:ViewModel() {
         return ipAddressString
     }
 
+    suspend fun sendMessageFun(){
+        withContext(Dispatchers.IO){
+
+
+
+        }
+    }
 
 
     /*

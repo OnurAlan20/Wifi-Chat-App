@@ -45,7 +45,10 @@ fun MainScreen(anaYurtViewModel: AnaYurtViewModel,navController: NavController){
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top
             ) {
-                Text(text = anaYurtViewModel.localHostIp.value, fontSize = 23.sp)
+                Text(text = anaYurtViewModel.localHostIp.value, fontSize = 25.sp, color = colorResource(
+                    id = R.color.card_background
+                ))
+                Spacer(modifier = Modifier.height(7.dp))
                 LazyColumn {
                     items(items=anaYurtViewModel.messageList) { item ->
                         MyMessageCard(message = item)
