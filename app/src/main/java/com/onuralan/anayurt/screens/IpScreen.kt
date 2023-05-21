@@ -26,10 +26,10 @@ fun IpScreen(anaYurtViewModel: AnaYurtViewModel,navController: NavController){
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            MyIpTextField(value = anaYurtViewModel.serverLocalHost)
+            MyIpTextField(value = anaYurtViewModel.serverLocalHostPort)
             Spacer(modifier = Modifier.height(15.dp))
             MyIpButton {
-                if (anaYurtViewModel.serverLocalHost.value != ""&& anaYurtViewModel.serverLocalHost.value.length >= 8){
+                if (anaYurtViewModel.serverLocalHostPort.value != ""){
                     navController.navigate(Screens.MainScreen.route)
                 }
 
