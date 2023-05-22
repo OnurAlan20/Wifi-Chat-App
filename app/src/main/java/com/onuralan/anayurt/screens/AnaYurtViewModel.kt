@@ -80,6 +80,7 @@ class AnaYurtViewModel:ViewModel() {
 
     suspend fun sendMessageFun(){
         withContext(Dispatchers.IO){
+            messageList.add(Message("Android",sendMessage.value))
             socket.getOutputStream().write(sendMessage.value.toByteArray())
         }
     }
