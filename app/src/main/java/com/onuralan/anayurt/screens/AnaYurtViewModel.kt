@@ -19,6 +19,7 @@ import kotlinx.coroutines.withContext
 import java.net.ServerSocket
 import java.net.Socket
 import java.util.*
+import java.util.logging.Logger.global
 
 class AnaYurtViewModel:ViewModel() {
 
@@ -31,13 +32,19 @@ class AnaYurtViewModel:ViewModel() {
 
     val localHostIp:MutableState<String> = mutableStateOf("")
 
+    private lateinit var serverSocket: ServerSocket
+    private lateinit var socket: Socket
+
+
+
+
 
 
 
     fun startServer() {
         CoroutineScope(Dispatchers.IO).launch {
-            val serverSocket = ServerSocket(serverLocalHostPort.value.toInt())
-            val socket = serverSocket.accept()
+            serverSocket = ServerSocket(serverLocalHostPort.value.toInt())
+            socket = serverSocket.accept()
             while (true) {
                 connectFun(socket)
             }
@@ -73,36 +80,9 @@ class AnaYurtViewModel:ViewModel() {
 
     suspend fun sendMessageFun(){
         withContext(Dispatchers.IO){
-
-
-
+            socket.getOutputStream().write(sendMessage.value.toByteArray())
         }
     }
 
 
-    /*
-    suspend fun  sendMessageFun(){
-        withContext(Dispatchers.IO){
-            val connection = Socket(serverLocalHost.value,1000)
-            val writer: OutputStream = connection.getOutputStream()
-            writer.write(sendMessage.value.toByteArray())
-            messageList.add(Message("Android",sendMessage.value))
-            connection.close()
-        }
-    }
-    suspend fun listenMessageFun(){
-        withContext(Dispatchers.IO){
-            val connection = Socket(serverLocalHost.value,1000)
-            val scanner = Scanner(connection.getInputStream())
-            while (scanner.hasNextLine()){
-                val getMessage = scanner.nextLine()
-                messageList.add(Message("Computer",getMessage))
-                break
-            }
-            connection.close()
-            listenMessageFun()
-        }
-    }
-
-     */
-    }
+}

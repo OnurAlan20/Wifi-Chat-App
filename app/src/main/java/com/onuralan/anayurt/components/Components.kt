@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,14 +42,15 @@ fun MyChatTextField(value:MutableState<String>, onClick: () -> Unit){
 
         ),
         trailingIcon = {
-            Icon(
-                imageVector = Icons.Default.Send,
-                contentDescription = "Trailing Icon",
-                modifier = Modifier.clickable {
-                    onClick()
-                },
-                tint = colorResource(id = R.color.light_blue)
-            )
+                Icon(
+                    imageVector = Icons.Default.Send,
+                    contentDescription = "Trailing Icon",
+                    modifier = Modifier.clickable {
+                        onClick()
+                    },
+                    tint = colorResource(id = R.color.light_blue)
+                )
+
         }
 
     )

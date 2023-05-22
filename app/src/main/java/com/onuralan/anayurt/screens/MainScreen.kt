@@ -22,13 +22,15 @@ import com.onuralan.anayurt.components.MyChatTextField
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.net.InetAddress
 import java.net.ServerSocket
 
 @Composable
 fun MainScreen(anaYurtViewModel: AnaYurtViewModel,navController: NavController){
-    LaunchedEffect(Unit) {
+    LaunchedEffect(Dispatchers.IO) {
         anaYurtViewModel.startServer()
+
     }
     Surface(modifier = Modifier.fillMaxSize(), color = colorResource(id = R.color.dark_gray)) {
         Column(
@@ -67,7 +69,7 @@ fun MainScreen(anaYurtViewModel: AnaYurtViewModel,navController: NavController){
 
                     if(anaYurtViewModel.sendMessage.value != ""){
                         CoroutineScope(Dispatchers.IO).launch {
-                            anaYurtViewModel.sendMessage
+                            anaYurtViewModel.sendMessageFun()
                             anaYurtViewModel.sendMessage.value = ""
 
 
